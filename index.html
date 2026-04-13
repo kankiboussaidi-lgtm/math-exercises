@@ -274,8 +274,37 @@ sol=`
 
 document.getElementById("title").innerHTML=title;
 document.getElementById("content").innerHTML=ex;
-document.getElementById("sol").innerHTML=sol
-  
+document.getElementById("sol").innerHTML=sol;
+
+document.getElementById("sol").style.display="none";
+document.getElementById("btn").innerText="إظهار الحل النموذجي";
+}
+
+/* ================= إظهار / إخفاء ================= */
+function toggle(){
+let s=document.getElementById("sol");
+let b=document.getElementById("btn");
+
+if(s.style.display==="none"){
+s.style.display="block";
+b.innerText="إخفاء الحل النموذجي";
+}else{
+s.style.display="none";
+b.innerText="إظهار الحل النموذجي";
+}
+}
+
+/* ================= رجوع ================= */
+function back(){
+document.getElementById("menu").style.display="flex";
+document.getElementById("box").style.display="none";
+}
+
+</script>
+
+</body>
+</html>
+
 
 
 
