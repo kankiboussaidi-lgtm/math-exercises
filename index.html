@@ -16,7 +16,6 @@ margin: 0;
 padding: 10px;
 }
 
-/* مهم: الرياضيات لا تنقلب */
 .math{
 direction: ltr;
 unicode-bidi: embed;
@@ -25,22 +24,11 @@ display: inline-block;
 
 h1{text-align:center;}
 
-#menu{
+#menu, #box{
 display:flex;
 flex-direction:column;
-align-items:center;
-}
-
-button{
-width:260px;
-padding:15px;
-margin:10px;
-font-size:18px;
-background:#00695C; /* اللون الأصلي الذي اخترته أنت */
-color:white;
-border:none;
-border-radius:10px;
-cursor:pointer;
+align-items:center; /* جعل كل العناصر في المنتصف */
+text-align: center;
 }
 
 #box{
@@ -53,8 +41,21 @@ border-radius:15px;
 box-sizing: border-box;
 }
 
-.question{margin-top:15px; line-height:2;}
-.step{margin-top:6px;}
+button{
+width:260px;
+padding:15px;
+margin:10px auto; /* auto تجعل الزر يتوسط الحاوية */
+font-size:18px;
+background:#00695C;
+color:white;
+border:none;
+border-radius:10px;
+cursor:pointer;
+display: block;
+}
+
+.question{margin-top:15px; line-height:2; text-align: right; width: 100%;}
+.step{margin-top:6px; text-align: right; width: 100%;}
 
 table{
 border-collapse:collapse;
@@ -68,7 +69,9 @@ border:1px solid black;
 padding:8px;
 }
 
-canvas{display:none; max-width: 100%; height: auto;}
+canvas{display:none; max-width: 100%; height: auto; margin: 0 auto;}
+
+#sol { width: 100%; }
 </style>
 </head>
 
@@ -84,7 +87,7 @@ canvas{display:none; max-width: 100%; height: auto;}
 
 <div id="box">
 
-<h2 id="title" style="text-align:center;"></h2>
+<h2 id="title"></h2>
 
 <div id="content"></div>
 
@@ -93,7 +96,7 @@ canvas{display:none; max-width: 100%; height: auto;}
 <button id="btn" onclick="toggle()">إظهار الحل النموذجي</button>
 <div id="sol"></div>
 
-<button onclick="back()" style="background:#757575;">رجوع</button>
+<button onclick="back()">رجوع</button>
 
 </div>
 
@@ -123,7 +126,7 @@ borderWidth:2
 
 function show(type){
 document.getElementById("menu").style.display="none";
-document.getElementById("box").style.display="block";
+document.getElementById("box").style.display="flex";
 let ex="", sol="", title="";
 let g=document.getElementById("graph");
 g.style.display="none";
@@ -248,5 +251,6 @@ document.getElementById("box").style.display="none";
 
 </body>
 </html>
+
 
 
