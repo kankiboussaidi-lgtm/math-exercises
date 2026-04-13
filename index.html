@@ -9,7 +9,7 @@
 
 <style>
 body{
-font-family: Arial, sans-serif;
+font-family: Arial;
 background:#f2f2f2;
 direction: rtl;
 margin: 0;
@@ -23,11 +23,7 @@ unicode-bidi: embed;
 display: inline-block;
 }
 
-h1{
-    text-align:center;
-    font-size: 22px; /* تصغير العنوان قليلاً ليناسب الموبايل */
-    color: #004D40;
-}
+h1{text-align:center;}
 
 #menu{
 display:flex;
@@ -36,66 +32,49 @@ align-items:center;
 }
 
 button{
-width:100%; /* جعل الأزرار تأخذ العرض الكامل في الموبايل */
-max-width: 280px;
+width:260px;
 padding:15px;
 margin:10px;
 font-size:18px;
-background:#00695C;
+background:#00695C; /* اللون الأصلي الذي اخترته أنت */
 color:white;
 border:none;
 border-radius:10px;
 cursor:pointer;
-box-shadow: 0 4px 6px rgba(0,0,0,0.1);
 }
 
 #box{
 display:none;
 background:white;
-width:95%;
-margin:10px auto;
-padding:15px;
+width:92%;
+margin:20px auto;
+padding:25px;
 border-radius:15px;
-box-sizing: border-box; /* لضمان عدم خروج المحتوى عن الحواف */
+box-sizing: border-box;
 }
 
-.question{margin-top:15px; line-height:1.6; font-size: 17px;}
-.step{margin-top:6px; font-size: 16px;}
+.question{margin-top:15px; line-height:2;}
+.step{margin-top:6px;}
 
 table{
 border-collapse:collapse;
 width:100%;
 margin-top:15px;
 text-align:center;
-font-size: 14px;
 }
 
 td,th{
-border:1px solid #ccc;
+border:1px solid black;
 padding:8px;
 }
 
-/* جعل المنحنى يستجيب لحجم الشاشة */
-canvas{
-    display:none;
-    max-width: 100% !important;
-    height: auto !important;
-}
-
-#btn {
-    background: #E64A19;
-    margin-top: 20px;
-}
-
-button[onclick="back()"] {
-    background: #757575;
-}
+canvas{display:none; max-width: 100%; height: auto;}
 </style>
 </head>
 
 <body>
 
-<h1>تمارين الرياضيات - ثانية ثانوي</h1>
+<h1>تمارين الرياضيات - السنة الثانية ثانوي</h1>
 
 <div id="menu">
 <button onclick="show('func')">الدوال</button>
@@ -105,23 +84,22 @@ button[onclick="back()"] {
 
 <div id="box">
 
-<h2 id="title" style="color:#00695C; text-align:center;"></h2>
+<h2 id="title" style="text-align:center;"></h2>
 
 <div id="content"></div>
 
-<canvas id="graph"></canvas>
+<canvas id="graph" width="400" height="300"></canvas>
 
 <button id="btn" onclick="toggle()">إظهار الحل النموذجي</button>
 <div id="sol"></div>
 
-<button onclick="back()" style="width: 100%; margin-top: 30px;">رجوع للقائمة</button>
+<button onclick="back()" style="background:#757575;">رجوع</button>
 
 </div>
 
 <script>
 let chart;
 
-/* ================= المنحنى (فقط الدوال) ================= */
 function draw(){
 let ctx=document.getElementById("graph").getContext("2d");
 let x=[], y=[];
@@ -137,19 +115,12 @@ labels:x,
 datasets:[{
 label:"f(x)=x²-8x+15",
 data:y,
-borderColor: "#00695C",
-fill: false,
 borderWidth:2
 }]
-},
-options: {
-    responsive: true,
-    maintainAspectRatio: true
 }
 });
 }
 
-/* ================= العرض ================= */
 function show(type){
 document.getElementById("menu").style.display="none";
 document.getElementById("box").style.display="block";
@@ -166,13 +137,31 @@ ex=`
 <div class="question">2) استنتج الرأس.</div>
 <div class="question">3) حل المتراجحة: <span class="math">f(x) ≤ 0</span></div>
 <div class="question">4) حل المعادلة: <span class="math">f(x)=0</span></div>
+<div class="question">5) جدول التغيرات.</div>
 `;
 sol=`
 <div class="question"><b>1) التحليل:</b></div>
+<div class="step">x² - 8x + 15</div>
+<div class="step">x² - 8x + 16 - 1</div>
 <div class="step"><span class="math">(x-4)² - 1</span></div>
 <hr>
 <div class="question"><b>2) الرأس:</b></div>
+<div class="step">نكتب: <span class="math">(x-4)² - 1</span></div>
+<div class="step">a = 4</div>
+<div class="step">b = -1</div>
 <div class="step">الرأس: S(4 , -1)</div>
+<hr>
+<div class="question"><b>3) المتراجحة:</b></div>
+<div class="step"><span class="math">(x-4)² - 1 ≤ 0</span></div>
+<div class="step"><span class="math">(x-4)² ≤ 1</span></div>
+<div class="step">-1 ≤ x - 4 ≤ 1</div>
+<div class="step">3 ≤ x ≤ 5</div>
+<hr>
+<div class="question"><b>4) المعادلة:</b></div>
+<div class="step"><span class="math">(x-4)² - 1 = 0</span></div>
+<div class="step"><span class="math">(x-4)² = 1</span></div>
+<div class="step">x - 4 = ±1</div>
+<div class="step">x = 3 أو x = 5</div>
 <hr>
 <div class="question"><b>5) جدول التغيرات:</b></div>
 <table>
@@ -185,14 +174,51 @@ setTimeout(draw,200);
 
 if(type==="prob"){
 title="الإحتمالات";
-ex=`<div class="question">صندوق فيه 4 حمراء و3 زرقاء و3 خضراء...</div>`;
-sol=`<div class="question"><b>الحل:</b> تعتمد على قانون السحب بدون إرجاع.</div>`;
+ex=`
+<div class="question">صندوق فيه 4 حمراء و3 زرقاء و3 خضراء.</div>
+<div class="question">نسحب كرتين دون إرجاع.</div>
+<div class="question">1) نفس اللون</div>
+<div class="question">2) لونين مختلفين</div>
+<div class="question">3) على الأقل كرة حمراء</div>
+<div class="question">4) استقلالية الأحداث</div>
+`;
+sol=`
+<div class="question"><b>القانون:</b></div>
+<div class="step">P(A∩B)=P(A)×P(B|A)</div>
+<hr>
+<div class="question"><b>1)</b></div>
+<div class="step">نفس اللون</div>
+<hr>
+<div class="question"><b>2)</b></div>
+<div class="step">ألوان مختلفة</div>
+<hr>
+<div class="question"><b>3)</b></div>
+<div class="step">1 - P(بدون حمراء)</div>
+<hr>
+<div class="question"><b>4)</b></div>
+<div class="step">غير مستقلين</div>
+`;
 }
 
 if(type==="ang"){
 title="الزوايا الموجهة";
-ex=`<div class="question">احسب (AB,AE) إذا علمت...</div>`;
-sol=`<div class="question"><b>النتيجة:</b> 90° (زاوية قائمة).</div>`;
+ex=`
+<div class="question">(AB,AC)=35°</div>
+<div class="question">(AC,AD)=-65°</div>
+<div class="question">(AD,AE)=120°</div>
+<div class="question">1) احسب (AB,AE)</div>
+<div class="question">2) تحليل النتيجة</div>
+`;
+sol=`
+<div class="question"><b>القانون:</b></div>
+<div class="step">(AB,AE)=(AB,AC)+(AC,AD)+(AD,AE)</div>
+<hr>
+<div class="question"><b>1)</b></div>
+<div class="step">35 - 65 + 120 = 90°</div>
+<hr>
+<div class="question"><b>2)</b></div>
+<div class="step">زاوية موجبة ⇒ اتجاه عكس عقارب الساعة</div>
+`;
 }
 
 document.getElementById("title").innerHTML=title;
@@ -222,4 +248,5 @@ document.getElementById("box").style.display="none";
 
 </body>
 </html>
+
 
