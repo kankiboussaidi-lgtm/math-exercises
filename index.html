@@ -14,6 +14,9 @@ background:#f2f2f2;
 direction: rtl;
 margin: 0;
 padding: 10px;
+display: flex;
+flex-direction: column;
+align-items: center;
 }
 
 .math{
@@ -22,25 +25,27 @@ unicode-bidi: embed;
 display: inline-block;
 }
 
-h1{text-align:center;}
+h1{text-align:center; width: 100%;}
 
 #menu{
 display:flex;
 flex-direction:column;
 align-items:center;
+width: 100%;
 }
 
+/* تنسيق الأزرار لضمان التوسط */
 button{
 width:260px;
 padding:15px;
-margin:10px auto; /* لضمان التوسط الأفقي */
+margin:10px 0; /* ألغيت الهامش الجانبي التلقائي */
 font-size:18px;
 background:#00695C;
 color:white;
 border:none;
 border-radius:10px;
 cursor:pointer;
-display: block;
+align-self: center; /* تضمن توسط الزر بالنسبة للحاوية */
 }
 
 #box{
@@ -52,9 +57,10 @@ margin:20px auto;
 padding:25px;
 border-radius:15px;
 box-sizing: border-box;
-/* التعديل الجديد للتوسط */
+/* هذه الخصائص تجعل كل شيء داخل المربع الأبيض يتوسط */
 flex-direction: column;
 align-items: center; 
+justify-content: center;
 text-align: center;
 }
 
@@ -73,7 +79,11 @@ border:1px solid black;
 padding:8px;
 }
 
-canvas{display:none; max-width: 100%; height: auto !important; margin: 10px auto;}
+canvas{display:none; max-width: 100%; height: auto !important; margin: 15px auto;}
+
+#sol { width: 100%; }
+
+hr { width: 100%; border: 0; border-top: 1px solid #eee; margin: 15px 0; }
 </style>
 </head>
 
@@ -96,7 +106,8 @@ canvas{display:none; max-width: 100%; height: auto !important; margin: 10px auto
 <canvas id="graph" width="400" height="300"></canvas>
 
 <button id="btn" onclick="toggle()">إظهار الحل النموذجي</button>
-<div id="sol" style="width: 100%;"></div>
+
+<div id="sol"></div>
 
 <button onclick="back()">رجوع</button>
 
@@ -129,7 +140,7 @@ options: { responsive: true }
 
 function show(type){
 document.getElementById("menu").style.display="none";
-document.getElementById("box").style.display="flex"; /* غيرتها إلى flex لتفعيل التوسط */
+document.getElementById("box").style.display="flex"; 
 
 let ex="", sol="", title="";
 let g=document.getElementById("graph");
@@ -147,17 +158,17 @@ ex=`
 <div class="question">5) جدول التغيرات.</div>
 `;
 sol=`
+<hr>
 <div class="question"><b>1) التحليل:</b></div>
 <div class="step">x² - 8x + 15 = <span class="math">(x-4)² - 1</span></div>
-<hr>
 <div class="question"><b>2) الرأس:</b></div>
 <div class="step">الرأس: S(4 , -1)</div>
-<hr>
 <div class="question"><b>5) جدول التغيرات:</b></div>
 <table>
 <tr><th>x</th><th>-∞</th><th>4</th><th>+∞</th></tr>
 <tr><th>f(x)</th><td>↘</td><td>-1</td><td>↗</td></tr>
 </table>
+<hr>
 `;
 setTimeout(draw,200);
 }
@@ -201,6 +212,7 @@ document.getElementById("box").style.display="none";
 
 </body>
 </html>
+
 
 
 
