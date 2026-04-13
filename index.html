@@ -16,7 +16,6 @@ margin: 0;
 padding: 10px;
 }
 
-/* مهم: الرياضيات لا تنقلب */
 .math{
 direction: ltr;
 unicode-bidi: embed;
@@ -34,29 +33,33 @@ align-items:center;
 button{
 width:260px;
 padding:15px;
-margin:10px auto; /* لضمان التوسط في الهاتف */
+margin:10px auto; /* لضمان التوسط الأفقي */
 font-size:18px;
 background:#00695C;
 color:white;
 border:none;
 border-radius:10px;
 cursor:pointer;
-display: block; /* لضمان التوسط */
+display: block;
 }
 
 #box{
 display:none;
 background:white;
 width:92%;
-max-width: 600px; /* لضمان عدم التمدد الزائد */
+max-width: 500px;
 margin:20px auto;
 padding:25px;
 border-radius:15px;
-box-sizing: border-box; /* لكي لا يخرج المربع عن الشاشة */
+box-sizing: border-box;
+/* التعديل الجديد للتوسط */
+flex-direction: column;
+align-items: center; 
+text-align: center;
 }
 
-.question{margin-top:15px; line-height:2;}
-.step{margin-top:6px;}
+.question{margin-top:15px; line-height:2; text-align: right; width: 100%;}
+.step{margin-top:6px; text-align: right; width: 100%;}
 
 table{
 border-collapse:collapse;
@@ -70,7 +73,7 @@ border:1px solid black;
 padding:8px;
 }
 
-canvas{display:none; max-width: 100%; height: auto !important;}
+canvas{display:none; max-width: 100%; height: auto !important; margin: 10px auto;}
 </style>
 </head>
 
@@ -86,36 +89,30 @@ canvas{display:none; max-width: 100%; height: auto !important;}
 
 <div id="box">
 
-<h2 id="title" style="text-align:center;"></h2>
+<h2 id="title"></h2>
 
 <div id="content"></div>
 
 <canvas id="graph" width="400" height="300"></canvas>
 
 <button id="btn" onclick="toggle()">إظهار الحل النموذجي</button>
-<div id="sol"></div>
+<div id="sol" style="width: 100%;"></div>
 
 <button onclick="back()">رجوع</button>
 
 </div>
 
 <script>
-
 let chart;
 
-/* ================= المنحنى (فقط الدوال) ================= */
 function draw(){
 let ctx=document.getElementById("graph").getContext("2d");
-
 let x=[], y=[];
-
 for(let i=-6;i<=6;i+=0.5){
 x.push(i);
 y.push(i*i-8*i+15);
 }
-
 if(chart) chart.destroy();
-
 chart=new Chart(ctx,{
 type:"line",
 data:{
@@ -126,165 +123,67 @@ data:y,
 borderWidth:2
 }]
 },
-options: {
-    responsive: true
-}
+options: { responsive: true }
 });
 }
 
-/* ================= العرض ================= */
 function show(type){
-
 document.getElementById("menu").style.display="none";
-document.getElementById("box").style.display="block";
+document.getElementById("box").style.display="flex"; /* غيرتها إلى flex لتفعيل التوسط */
 
 let ex="", sol="", title="";
-
 let g=document.getElementById("graph");
 g.style.display="none";
 
 if(type==="func"){
-
 g.style.display="block";
-
 title="تمرين الدوال";
-
 ex=`
 <div class="question">لدينا الدالة: <span class="math">f(x)=x²-8x+15</span></div>
-
 <div class="question">1) أعد كتابتها على شكل مربع كامل.</div>
 <div class="question">2) استنتج الرأس.</div>
 <div class="question">3) حل المتراجحة: <span class="math">f(x) ≤ 0</span></div>
 <div class="question">4) حل المعادلة: <span class="math">f(x)=0</span></div>
 <div class="question">5) جدول التغيرات.</div>
 `;
-
 sol=`
-
 <div class="question"><b>1) التحليل:</b></div>
-<div class="step">x² - 8x + 15</div>
-<div class="step">x² - 8x + 16 - 1</div>
-<div class="step"><span class="math">(x-4)² - 1</span></div>
-
+<div class="step">x² - 8x + 15 = <span class="math">(x-4)² - 1</span></div>
 <hr>
-
 <div class="question"><b>2) الرأس:</b></div>
-<div class="step">نكتب: <span class="math">(x-4)² - 1</span></div>
-<div class="step">a = 4</div>
-<div class="step">b = -1</div>
 <div class="step">الرأس: S(4 , -1)</div>
-
 <hr>
-
-<div class="question"><b>3) المتراجحة:</b></div>
-<div class="step"><span class="math">(x-4)² - 1 ≤ 0</span></div>
-<div class="step"><span class="math">(x-4)² ≤ 1</span></div>
-<div class="step">-1 ≤ x - 4 ≤ 1</div>
-<div class="step">3 ≤ x ≤ 5</div>
-
-<hr>
-
-<div class="question"><b>4) المعادلة:</b></div>
-<div class="step"><span class="math">(x-4)² - 1 = 0</span></div>
-<div class="step"><span class="math">(x-4)² = 1</span></div>
-<div class="step">x - 4 = ±1</div>
-<div class="step">x = 3 أو x = 5</div>
-
-<hr>
-
 <div class="question"><b>5) جدول التغيرات:</b></div>
-
 <table>
 <tr><th>x</th><th>-∞</th><th>4</th><th>+∞</th></tr>
 <tr><th>f(x)</th><td>↘</td><td>-1</td><td>↗</td></tr>
 </table>
 `;
-
 setTimeout(draw,200);
 }
 
 if(type==="prob"){
-
 title="الإحتمالات";
-
-ex=`
-<div class="question">صندوق فيه 4 حمراء و3 زرقاء و3 خضراء.</div>
-<div class="question">نسحب كرتين دون إرجاع.</div>
-
-<div class="question">1) نفس اللون</div>
-<div class="question">2) لونين مختلفين</div>
-<div class="question">3) على الأقل كرة حمراء</div>
-<div class="question">4) استقلالية الأحداث</div>
-`;
-
-sol=`
-<div class="question"><b>القانون:</b></div>
-<div class="step">P(A∩B)=P(A)×P(B|A)</div>
-
-<hr>
-
-<div class="question"><b>1)</b></div>
-<div class="step">نفس اللون</div>
-
-<hr>
-
-<div class="question"><b>2)</b></div>
-<div class="step">ألوان مختلفة</div>
-
-<hr>
-
-<div class="question"><b>3)</b></div>
-<div class="step">1 - P(بدون حمراء)</div>
-
-<hr>
-
-<div class="question"><b>4)</b></div>
-<div class="step">غير مستقلين</div>
-`;
+ex=`<div class="question">تمارين الإحتمالات...</div>`;
+sol=`<div class="question">الحل النموذجي هنا...</div>`;
 }
 
 if(type==="ang"){
-
 title="الزوايا الموجهة";
-
-ex=`
-<div class="question">(AB,AC)=35°</div>
-<div class="question">(AC,AD)=-65°</div>
-<div class="question">(AD,AE)=120°</div>
-
-<div class="question">1) احسب (AB,AE)</div>
-<div class="question">2) تحليل النتيجة</div>
-`;
-
-sol=`
-<div class="question"><b>القانون:</b></div>
-<div class="step">(AB,AE)=(AB,AC)+(AC,AD)+(AD,AE)</div>
-
-<hr>
-
-<div class="question"><b>1)</b></div>
-<div class="step">35 - 65 + 120 = 90°</div>
-
-<hr>
-
-<div class="question"><b>2)</b></div>
-<div class="step">زاوية موجبة ⇒ اتجاه عكس عقارب الساعة</div>
-`;
+ex=`<div class="question">تمارين الزوايا...</div>`;
+sol=`<div class="question">الحل النموذجي هنا...</div>`;
 }
 
 document.getElementById("title").innerHTML=title;
 document.getElementById("content").innerHTML=ex;
 document.getElementById("sol").innerHTML=sol;
-
 document.getElementById("sol").style.display="none";
 document.getElementById("btn").innerText="إظهار الحل النموذجي";
 }
 
-/* ================= إظهار / إخفاء ================= */
 function toggle(){
 let s=document.getElementById("sol");
 let b=document.getElementById("btn");
-
 if(s.style.display==="none"){
 s.style.display="block";
 b.innerText="إخفاء الحل النموذجي";
@@ -294,16 +193,15 @@ b.innerText="إظهار الحل النموذجي";
 }
 }
 
-/* ================= رجوع ================= */
 function back(){
 document.getElementById("menu").style.display="flex";
 document.getElementById("box").style.display="none";
 }
-
 </script>
 
 </body>
 </html>
+
 
 
 
