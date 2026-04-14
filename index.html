@@ -3,97 +3,76 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>منصة الرياضيات التعليمية - ثانية ثانوي</title>
+<title>تمارين رياضيات ثانية ثانوي</title>
 <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 <style>
-    body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; background:#f4f7f6; direction: rtl; margin: 0; padding: 20px; color: #333; }
-    
-    /* الإطار الأحمر المقدس للمصطلحات والمعادلات */
+    body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; background:#f0f2f5; direction: rtl; margin: 0; padding: 20px; }
     .math {
         direction: ltr; unicode-bidi: embed; display: inline-block;
         font-family: "Courier New", Courier, monospace; font-weight: bold;
-        color: #d32f2f; background: #fff5f5; padding: 3px 8px;
-        border-radius: 5px; border: 1.5px solid #d32f2f; margin: 2px;
+        color: #c62828; background: #fff5f5; padding: 2px 6px;
+        border-radius: 4px; border: 1px solid #ffcdd2;
     }
-
     h1.main-title, #sub-header {
-        text-align: center; color: #00695c; margin-bottom: 30px; font-size: 2.5rem;
-        border-bottom: 5px double #00695c; display: table; margin: 0 auto 30px auto; padding: 10px;
+        text-align: center; color: #004d40; margin-bottom: 30px; font-size: 2.2rem;
+        border-bottom: 4px double #00695C; display: table; margin: 0 auto 30px auto;
     }
-    #sub-header { display: none; color: #d32f2f; border-bottom-color: #d32f2f; }
-    
-    .container { max-width: 1100px; margin: 0 auto; }
-    #menu, #sub-menu { display: flex; flex-direction: column; align-items: center; gap: 15px; }
+    #sub-header { display: none; color: #c62828; border-bottom-color: #c62828; }
+    #menu, #sub-menu { display: flex; flex-direction: column; align-items: center; margin-top: 20px; }
     #sub-menu { display: none; }
-
     button {
-        width: 380px; max-width: 95%; padding: 20px; font-size: 22px;
-        background: #00796b; color: white; border: none; border-radius: 15px;
-        cursor: pointer; transition: 0.3s; box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+        width: 350px; max-width: 90%; padding: 18px; margin: 12px auto;
+        display: block; font-size: 20px; background: #00695C; 
+        color: white; border: none; border-radius: 15px; cursor: pointer;
+        transition: all 0.3s ease; box-shadow: 0 4px 15px rgba(0,105,92,0.2);
     }
-    button:hover { background: #004d40; transform: scale(1.02); }
-
+    button:hover { background: #004d40; transform: translateY(-3px); }
     #box {
-        display: none; background: white; width: 100%; padding: 40px;
-        border-radius: 30px; box-shadow: 0 20px 50px rgba(0,0,0,0.1);
+        display: none; background: white; width: 95%; max-width: 1000px;
+        margin: 20px auto; padding: 40px; border-radius: 25px;
+        box-shadow: 0 15px 40px rgba(0,0,0,0.15);
     }
-
-    .step { 
-        margin-top: 25px; padding: 25px; border-right: 8px solid #00796b; 
-        background: #f9f9f9; border-radius: 10px; line-height: 2;
-    }
-    .step b { color: #004d40; font-size: 1.3rem; display: block; margin-bottom: 10px; border-bottom: 1px solid #ccc; }
-    
-    .law { background: #e0f2f1; padding: 10px; border-radius: 5px; margin: 10px 0; border: 1px dashed #00796b; }
-
-    .variation-table { 
-        width: 100%; max-width: 600px; margin: 20px auto; border-collapse: collapse; background: #fff;
-    }
-    .variation-table td { border: 2.5px solid #004d40; padding: 15px; text-align: center; font-weight: bold; }
-    .row-label { background: #e0f2f1; width: 100px; }
-    .arrow { font-size: 25px; color: #00796b; }
-
-    canvas { background: #fff; border: 2px solid #eee; border-radius: 15px; margin: 30px 0; }
-    #sol { display: none; }
-    .btn-sol { background: #d32f2f !important; }
-    .btn-back { background: #546e7a !important; margin-top: 40px; }
+    .question { margin-top: 25px; line-height: 2.2; font-size: 19px; color: #1a1a1a; font-weight: bold; border-right: 5px solid #00695C; padding-right: 15px; }
+    .step { margin-top: 20px; color: #333; padding: 20px; border-right: 5px solid #c62828; background: #fff8f8; border-radius: 0 10px 10px 0; line-height: 2; }
+    .step b { color: #c62828; display: block; margin-bottom: 10px; font-size: 1.2rem; text-decoration: underline; }
+    .variation-table { width: 100%; max-width: 500px; margin: 20px auto; border-collapse: collapse; }
+    .variation-table td { border: 2px solid #00695C; padding: 10px; text-align: center; font-weight: bold; }
+    canvas { margin: 30px auto; max-width: 100%; display: block; background: #fff; border-radius: 10px; }
+    #sol { display: none; margin-top: 30px; border-top: 2px dashed #ccc; padding-top: 20px; }
+    .btn-back { background: #00695C !important; margin-top: 30px; }
 </style>
 </head>
-    <body>
-<div class="container">
-    <h1 id="main-header" class="main-title">تحضير بكالوريا: ثانية ثانوي</h1>
-    <h1 id="sub-header"></h1>
-
-    <div id="menu">
-        <button onclick="showSubMenu('func')">محور الدوال العدديّة</button>
-        <button onclick="showSubMenu('prob')">محور الاحتمالات</button>
-        <button onclick="showSubMenu('ang')">محور الحساب المثلثي</button>
-    </div>
-
-    <div id="sub-menu">
-        <button id="btn1">تمرين 01 (تأسيسي)</button>
-        <button id="btn2">تمرين 02 (متوسط)</button>
-        <button id="btn3">تمرين 03 (شامل/صعب)</button>
-        <button class="btn-back" onclick="backToMain()">العودة للرئيسية</button>
-    </div>
-
-    <div id="box">
-        <h2 id="title" style="text-align:center; color:#00796b;"></h2>
-        <div id="content"></div>
-        <canvas id="graph" width="500" height="300"></canvas>
-        <button id="btn-toggle" class="btn-sol" onclick="toggle()">إظهار الحل النموذجي المفصل</button>
-        <div id="sol"></div>
-        <button class="btn-back" onclick="backToSub()">العودة للمستويات</button>
-    </div>
+<body>
+<h1 id="main-header" class="main-title">تمارين رياضيات ثانية ثانوي</h1>
+<h1 id="sub-header"></h1>
+<div id="menu">
+    <button onclick="showSubMenu('func')">الدوال</button>
+    <button onclick="showSubMenu('prob')">الإحتمالات</button>
+    <button onclick="showSubMenu('ang')">الزوايا الموجهة</button>
 </div>
-
+<div id="sub-menu">
+    <button id="btn1">تمرين سهل</button>
+    <button id="btn2">تمرين متوسط</button>
+    <button id="btn3">تمرين صعب</button>
+    <button class="btn-back" onclick="backToMain()">العودة</button>
+</div>
+<div id="box">
+    <h2 id="title" style="text-align:center;"></h2>
+    <div id="content"></div>
+    <canvas id="graph" width="400" height="250"></canvas>
+    <button id="btn-toggle" style="background:#00695C; color:white; padding:10px; border-radius:10px; cursor:pointer; width:100%; border:none; font-size:18px;" onclick="toggle()">إظهار الحل النموذجي المفصل</button>
+    <div id="sol"></div>
+    <button class="btn-back" onclick="backToSub()">العودة للمستويات</button>
+</div>
 <script>
 let chart;
 function showSubMenu(type) {
     document.getElementById("main-header").style.display = "none";
     let subHeader = document.getElementById("sub-header");
     subHeader.style.display = "table";
-    subHeader.innerText = (type==='func')?"تمارين الدوال":(type==='prob')?"تمارين الاحتمالات":"تمارين الزوايا";
+    if(type === 'func') subHeader.innerText = "محور الدوال";
+    if(type === 'prob') subHeader.innerText = "محور الإحتمالات";
+    if(type === 'ang') subHeader.innerText = "محور الزوايا الموجهة";
     document.getElementById("menu").style.display = "none";
     document.getElementById("sub-menu").style.display = "flex";
     document.getElementById("btn1").onclick = () => loadExercise(type, 1);
@@ -111,44 +90,88 @@ function loadExercise(type, level) {
 
     if (type === 'func') {
         if (level === 1) {
-            title = "دراسة دالة مربع مع الإزاحة";
-            ex = `<div class="question">نعتبر الدالة <span class="math">f(x) = x² - 4</span>.<br>1. احسب صور الأعداد <span class="math">0</span>، <span class="math">2</span>، <span class="math">-2</span>.<br>2. ادرس شفعية الدالة <span class="math">f</span> مع التعليل.<br>3. ادرس اتجاه تغير الدالة <span class="math">f</span> على المجال <span class="math">[0, +∞[</span>.<br>4. شكّل جدول التغيرات بدقة.<br>5. عين نقاط تقاطع المنحنى مع محور الفواصل.</div>`;
-            sol = `<div class="step"><b>1. حساب الصور (التعويض):</b><br>نعوض كل <span class="math">x</span> بالقيمة المعطاة:<br>
-                   - <span class="math">f(0) = (0)² - 4 = -4</span><br>
-                   - <span class="math">f(2) = (2)² - 4 = 4 - 4 = 0</span><br>
-                   - <span class="math">f(-2) = (-2)² - 4 = 4 - 4 = 0</span></div>
-                   <div class="step"><b>2. دراسة الشفعية:</b><br><div class="law">القانون: تكون زوجية إذا كان <span class="math">f(-x) = f(x)</span></div>
-                   نحسب <span class="math">f(-x) = (-x)² - 4</span>. وبما أن المربع يلغي الإشارة السالبة فإن: <span class="math">(-x)² = x²</span>.<br>
-                   إذن <span class="math">f(-x) = x² - 4 = f(x)</span>. النتيجة: الدالة <b>زوجية</b> ومنحناها متناظر بالنسبة لمحور التراتيب.</div>
-                   <div class="step"><b>3. اتجاه التغير (المنهجية):</b><br>نفرض <span class="math">x1</span> و <span class="math">x2</span> من المجال <span class="math">[0, +∞[</span> حيث <span class="math">x1 < x2</span>.<br>
-                   بتربيع الطرفين (الدالة متزايدة على الموجب): <span class="math">x1² < x2²</span>.<br>
-                   بطرح 4 من الطرفين: <span class="math">x1² - 4 < x2² - 4</span> أي <span class="math">f(x1) < f(x2)</span>.<br>
-                   النتيجة: الدالة <b>متزايدة تماماً</b> على المجال المذكور.</div>
-                   <div class="step"><b>4. جدول التغيرات:</b><br>
-                   <table class="variation-table"><tr><td class="row-label">x</td><td>-∞</td><td>0</td><td>+∞</td></tr><tr><td class="row-label">f(x)</td><td>+∞ <span class="arrow">↘</span></td><td><span class="math">-4</span></td><td><span class="arrow">↗</span> +∞</td></tr></table></div>
-                   <div class="step"><b>5. التقاطع مع محور الفواصل:</b><br>نحل المعادلة <span class="math">f(x) = 0</span> أي <span class="math">x² - 4 = 0</span>.<br>
-                   ننقل 4 للطرف الآخر: <span class="math">x² = 4</span>.<br>
-                   بجذر الطرفين نجد: <span class="math">x = 2</span> أو <span class="math">x = -2</span>. النقاط هي <span class="math">(2, 0)</span> و <span class="math">(-2, 0)</span>.</div>`;
+            title = "دوال: تمرين سهل (الدالة مربع)";
+            ex = `<div class="question">لتكن الدالة f المعرفة بـ: <span class="math">f(x) = x² - 4</span>.<br>1. احسب صور الأعداد 0 و 2.<br>2. ادرس شفعية الدالة f.<br>3. ادرس اتجاه تغير f على المجال [0, +∞[.<br>4. شكل جدول تغيرات الدالة f.<br>5. عين إحداثيات نقاط تقاطع المنحنى مع محور الفواصل.</div>`;
+            sol = `<div class="step"><b>1. حساب الصور:</b><br>لإيجاد الصورة، نعوض x بالقيمة المعطاة:<br>- صورة 0: <span class="math">f(0) = 0² - 4 = -4</span><br>- صورة 2: <span class="math">f(2) = 2² - 4 = 4 - 4 = 0</span></div>
+            <div class="step"><b>2. دراسة الشفعية:</b><br>نحسب f(-x): <span class="math">f(-x) = (-x)² - 4</span>. بما أن التربيع يلغي الإشارة السالبة: <span class="math">(-x)² = x²</span>. إذن <span class="math">f(-x) = x² - 4 = f(x)</span>. الدالة <b>زوجية</b>.</div>
+            <div class="step"><b>3. اتجاه التغير:</b><br>نفرض <span class="math">x1 < x2</span> في المجال الموجب. بتربيعهما يبقى الترتيب: <span class="math">x1² < x2²</span>. بطرح 4: <span class="math">x1² - 4 < x2² - 4</span>. إذن <span class="math">f(x1) < f(x2)</span>. الدالة <b>متزايدة تماماً</b>.</div>
+            <div class="step"><b>4. جدول التغيرات:</b><br><table class="variation-table"><tr><td>x</td><td>-∞</td><td>0</td><td>+∞</td></tr><tr><td>f(x)</td><td>+∞ ↘</td><td>-4</td><td>↗ +∞</td></tr></table></div>
+            <div class="step"><b>5. التقاطع مع محور الفواصل:</b><br>نحل <span class="math">f(x) = 0</span> أي <span class="math">x² - 4 = 0</span> مما يعني <span class="math">x² = 4</span>. إذن <span class="math">x = 2</span> أو <span class="math">x = -2</span>. النقاط هي (2,0) و (-2,0).</div>`;
             drawGraphs("f(x) = x² - 4", 1);
+        } else if (level === 2) {
+            title = "دوال: تمرين متوسط (كثير حدود)";
+            ex = `<div class="question">f دالة معرفة بـ: <span class="math">f(x) = -x² + 4x - 3</span>.<br>1. اكتب f(x) على الشكل النموذجي.<br>2. استنتج شعاع الانسحاب للمنحنى.<br>3. ادرس اتجاه تغير f على المجال ]-∞, 2].<br>4. شكل جدول تغيرات الدالة f.<br>5. عين نقطة تقاطع المنحنى مع محور التراتيب.</div>`;
+            sol = `<div class="step"><b>1. الشكل النموذجي:</b><br>نستخدم القانون <span class="math">f(x) = a(x-α)² + β</span> حيث <span class="math">α = -b/2a = -4/-2 = 2</span>. نحسب <span class="math">β = f(2) = -(2)² + 4(2) - 3 = 1</span>. إذن: <span class="math">f(x) = -(x-2)² + 1</span>.</div>
+            <div class="step"><b>2. شعاع الانسحاب:</b><br>المنحنى هو صورة قطع مكافئ بالانسحاب الذي شعاعه <span class="math">V(2, 1)</span> مع قلب المنحنى للأسفل لأن a سالب.</div>
+            <div class="step"><b>3. اتجاه التغير:</b><br>بما أن <span class="math">a = -1 < 0</span>، فالدالة متزايدة قبل الذروة. على المجال ]-∞, 2] تكون الدالة <b>متزايدة تماماً</b>.</div>
+            <div class="step"><b>4. جدول التغيرات:</b><br><table class="variation-table"><tr><td>x</td><td>-∞</td><td>2</td><td>+∞</td></tr><tr><td>f(x)</td><td>-∞ ↗</td><td>1</td><td>↘ -∞</td></tr></table></div>
+            <div class="step"><b>5. التقاطع مع محور التراتيب:</b><br>نعوض x بـ 0: <span class="math">f(0) = -0² + 4(0) - 3 = -3</span>. النقطة هي (0, -3).</div>`;
+            drawGraphs("f(x) = -x² + 4x - 3", 2);
+        } else {
+            title = "دوال: تمرين صعب (دالة تناظرية)";
+            ex = `<div class="question">f دالة معرفة بـ: <span class="math">f(x) = (2x-4)/(x-1)</span>.<br>1. عين مجموعة التعريف والمستقيمات المقاربة.<br>2. أوجد العددين a و b بحيث <span class="math">f(x) = a + b/(x-1)</span>.<br>3. ادرس اتجاه تغير الدالة f.<br>4. شكل جدول التغيرات.<br>5. أثبت أن النقطة ω(1, 2) هي مركز تناظر للمنحنى.</div>`;
+            sol = `<div class="step"><b>1. مجموعة التعريف والمقاربات:</b><br>المقام ينعدم عند <span class="math">x=1</span>، إذن <span class="math">Df = R - {1}</span>. المستقيم المقارب العمودي هو <span class="math">x = 1</span>. بما أن درجة البسط تساوي درجة المقام، المقارب الأفقي هو <span class="math">y = 2/1 = 2</span>.</div>
+            <div class="step"><b>2. إيجاد a و b:</b><br>بالقسمة الإقليدية أو التفكيك: <span class="math">(2x-2-2)/(x-1) = 2(x-1)/(x-1) - 2/(x-1)</span>. إذن <span class="math">a = 2</span> و <span class="math">b = -2</span>. تصبح <span class="math">f(x) = 2 - 2/(x-1)</span>.</div>
+            <div class="step"><b>3. اتجاه التغير:</b><br>الدالة من الشكل <span class="math">k/u</span> حيث <span class="math">k = -2</span>. بما أن k سالب ودالة المقلوب متناقصة، فإن f تكون <b>متزايدة تماماً</b> على مجالي تعريفها.</div>
+            <div class="step"><b>4. جدول التغيرات:</b><br>تزايد في المجالين مع وجود خطين متوازيين عند 1 (قيمة ممنوعة).</div>
+            <div class="step"><b>5. مركز التناظر:</b><br>نطبق القانون <span class="math">f(2x0 - x) + f(x) = 2y0</span>. أي <span class="math">f(2-x) + f(x) = 4</span>. بالتعويض والتبسيط نجد النتيجة 4، إذن ω مركز تناظر.</div>`;
+            drawGraphs("f(x) = (2x-4)/(x-1)", 3);
         }
-        // يمكن إضافة مستويات الدوال الأخرى هنا بنفس التفصيل
     }
         else if (type === 'prob') {
-        title = "الاحتمالات - سحب الكرات";
-        ex = `<div class="question">كيس به <span class="math">3</span> كرات بيضاء و <span class="math">2</span> سوداء. نسحب كرتين بالإرجاع.<br>1. ما هو عدد الحالات الإجمالية؟<br>2. احسب احتمال سحب كرتين بيضاوين.<br>3. احسب احتمال سحب كرتين من لونين مختلفين.<br>4. عرف المتغير العشوائي <span class="math">X</span> لعدد الكرات السوداء.<br>5. احسب الأمل الرياضياتي <span class="math">E(X)</span>.</div>`;
-        sol = `<div class="step"><b>1. عدد الحالات الإجمالية:</b><br>بما أن السحب "بالإرجاع"، نستخدم مبدأ الجداء: <span class="math">5 \times 5 = 25</span> حالة ممكنة.</div>
-               <div class="step"><b>2. كرتان بيضاوان:</b><br>احتمال البيضاء في السحبة الأولى هو <span class="math">3/5</span> وفي الثانية <span class="math">3/5</span>.<br>
-               الجداء: <span class="math">P(BB) = (3/5) \times (3/5) = 9/25 = 0.36</span>.</div>
-               <div class="step"><b>3. لونين مختلفين:</b><br>الحالات هي (بيضاء، سوداء) أو (سوداء، بيضاء).<br>
-               <span class="math">P = (3/5 \times 2/5) + (2/5 \times 3/5) = 6/25 + 6/25 = 12/25 = 0.48</span>.</div>
-               <div class="step"><b>4. قانون احتمال X:</b><br>قيم <span class="math">X</span> الممكنة: <span class="math">{0, 1, 2}</span> سوداء.<br>
-               - <span class="math">P(X=0)</span> (لا سوداء): <span class="math">9/25 = 0.36</span><br>
-               - <span class="math">P(X=1)</span> (واحدة سوداء): <span class="math">12/25 = 0.48</span><br>
-               - <span class="math">P(X=2)</span> (اثنتان سوداء): <span class="math">4/25 = 0.16</span></div>
-               <div class="step"><b>5. الأمل الرياضياتي:</b><br><div class="law">القانون: <span class="math">E(X) = \sum (xi \times pi)</span></div>
-               <span class="math">E(X) = (0 \times 0.36) + (1 \times 0.48) + (2 \times 0.16) = 0.48 + 0.32 = 0.8</span>.</div>`;
+        if (level === 1) {
+            title = "إحتمالات: مستوى سهل (رمي نرد متزن)";
+            ex = `<div class="question">نرمي زهرة نرد مكعبة متزنة مرقمة من 1 إلى 6.<br>1. عين مجموعة الإمكانيات (الحالات الكلية).<br>2. احسب احتمال الحدث A: "ظهور رقم زوجي".<br>3. احسب احتمال الحدث B: "ظهور رقم مضاعف للعدد 3".<br>4. احسب احتمال الحدث C: "ظهور رقم أكبر تماماً من 4".<br>5. هل الحدثان A و B متلائمان؟ علل إجابتك.</div>`;
+            sol = `<div class="step"><b>1. مجموعة الإمكانيات:</b><br>بما أن النرد له 6 وجوه، فإن المجموعة هي: <span class="math">Ω = {1, 2, 3, 4, 5, 6}</span>. عدد الحالات الكلية هو <span class="math">6</span>.</div>
+            <div class="step"><b>2. احتمال ظهور رقم زوجي (A):</b><br>الأرقام الزوجية هي {2, 4, 6}. عددها هو 3.<br>القانون: <span class="math">P(A) = عدد الحالات الملائمة / عدد الحالات الكلية</span>.<br>إذن: <span class="math">P(A) = 3 / 6 = 1 / 2 = 0.5</span>.</div>
+            <div class="step"><b>3. احتمال رقم مضاعف للعدد 3 (B):</b><br>المضاعفات الموجودة هي {3, 6}. عددها هو 2.<br>إذن: <span class="math">P(B) = 2 / 6 = 1 / 3 ≈ 0.33</span>.</div>
+            <div class="step"><b>4. احتمال رقم أكبر تماماً من 4 (C):</b><br>الأرقام هي {5, 6}. عددها هو 2.<br>إذن: <span class="math">P(C) = 2 / 6 = 1 / 3 ≈ 0.33</span>.</div>
+            <div class="step"><b>5. هل الحدثان A و B متلائمان؟</b><br>نبحث عن التقاطع (العناصر المشتركة). العدد 6 موجود في A وموجود في B.<br>بما أن التقاطع لا يساوي المجموعة الخالية <span class="math">(A ∩ B ≠ Ø)</span>، فإن الحدثين <b>متلائمان</b>.</div>`;
+        } else if (level === 2) {
+            title = "إحتمالات: مستوى متوسط (سحب كرات)";
+            ex = `<div class="question">كيس يحتوي على 3 كرات حمراء و 2 كرات خضراء. نسحب كرتين على التوالي "بدون إرجاع".<br>1. ما هو عدد الحالات الكلية لهذه التجربة؟<br>2. احسب احتمال سحب كرتين من نفس اللون.<br>3. احسب احتمال سحب كرتين مختلفتين في اللون.<br>4. نعتبر X المتغير العشوائي الذي يرفق بكل سحبة عدد الكرات الحمراء المسحوبة. عين قيم X.<br>5. عرف قانون الاحتمال للمتغير X واحسب أمله الرياضياتي E(X).</div>`;
+            sol = `<div class="step"><b>1. عدد الحالات الكلية:</b><br>السحب على التوالي بدون إرجاع. للكرة الأولى 5 خيارات، وللثانية 4 خيارات.<br>عدد الحالات هو: <span class="math">5 × 4 = 20</span> حالة.</div>
+            <div class="step"><b>2. كرتان من نفس اللون:</b><br>- حمراوان (3 × 2 = 6 حالات).<br>- خضراوان (2 × 1 = 2 حالة).<br>مجموع الحالات الملائمة هو <span class="math">6 + 2 = 8</span>. الاحتمال هو: <span class="math">8 / 20 = 0.4</span>.</div>
+            <div class="step"><b>3. كرتان مختلفتان في اللون:</b><br>نستخدم الحدث العكسي: <span class="math">1 - 0.4 = 0.6</span>. أو نحسب: (حمراء ثم خضراء: 3×2=6) + (خضراء ثم حمراء: 2×3=6) = 12 حالة. <span class="math">12 / 20 = 0.6</span>.</div>
+            <div class="step"><b>4. قيم المتغير العشوائي X:</b><br>بما أننا نسحب كرتين، يمكن ألا نسحب أي حمراء، أو واحدة، أو اثنتين. إذن: <span class="math">X = {0, 1, 2}</span>.</div>
+            <div class="step"><b>5. قانون الاحتمال والأمل:</b><br>- <span class="math">P(X=0) = 2/20 = 0.1</span><br>- <span class="math">P(X=1) = 12/20 = 0.6</span><br>- <span class="math">P(X=2) = 6/20 = 0.3</span><br>الأمل: <span class="math">E(X) = (0 × 0.1) + (1 × 0.6) + (2 × 0.3) = 0.6 + 0.6 = 1.2</span>.</div>`;
+        } else {
+            title = "إحتمالات: مستوى صعب (زهرتا نرد)";
+            ex = `<div class="question">نرمي زهرتي نرد متزنتين (بيضاء وحمراء) ونهتم بمجموع الرقمين الظاهرين.<br>1. شكل جدولاً يوضح جميع النتائج الممكنة للمجموع.<br>2. احسب احتمال الحصول على مجموع يساوي 7.<br>3. احسب احتمال الحصول على مجموع أكبر من أو يساوي 10.<br>4. احسب احتمال الحصول على رقمين متساويين في الزهرتين.<br>5. احسب احتمال الحصول على مجموع هو رقم أولي.</div>`;
+            sol = `<div class="step"><b>1. عدد الحالات الكلية:</b><br>كل نرد له 6 وجوه، إذن عدد الحالات هو <span class="math">6 × 6 = 36</span> حالة.</div>
+            <div class="step"><b>2. احتمال مجموع يساوي 7:</b><br>الحالات هي: (1,6)، (2,5)، (3,4)، (4,3)، (5,2)، (6,1). عددها 6 حالات.<br>الاحتمال هو: <span class="math">6 / 36 = 1 / 6 ≈ 0.166</span>.</div>
+            <div class="step"><b>3. مجموع أكبر من أو يساوي 10:</b><br>الحالات هي: مجموع 10 (4,6-5,5-6,4)، مجموع 11 (5,6-6,5)، مجموع 12 (6,6).<br>عددها 6 حالات. الاحتمال هو: <span class="math">6 / 36 = 1 / 6 ≈ 0.166</span>.</div>
+            <div class="step"><b>4. رقمين متساويين:</b><br>الحالات هي: (1,1)، (2,2)، (3,3)، (4,4)، (5,5)، (6,6). عددها 6 حالات.<br>الاحتمال هو: <span class="math">6 / 36 = 1 / 6 ≈ 0.166</span>.</div>
+            <div class="step"><b>5. المجموع رقم أولي:</b><br>الأرقام الأولية الممكنة كمجموع هي {2, 3, 5, 7, 11}.<br>بعد حساب الحالات لكل مجموع نجد عددها 15 حالة. الاحتمال هو: <span class="math">15 / 36 = 5 / 12 ≈ 0.416</span>.</div>`;
+        }
+        }
+        else if (type === 'ang') {
+        if (level === 1) {
+            title = "الزوايا الموجهة: مستوى سهل (أساسيات)";
+            ex = `<div class="question">1. حول القيس <span class="math">120°</span> إلى الراديان.<br>2. عين القيس الرئيسي للزاوية <span class="math">17π / 3</span>.<br>3. احسب القيمة الدقيقة لـ <span class="math">cos(π/4)</span> و <span class="math">sin(π/4)</span>.<br>4. بسط العبارة: <span class="math">A = cos(x) + cos(π - x)</span>.<br>5. حل في المجال <span class="math">[0, π]</span> المعادلة: <span class="math">sin(x) = 1</span>.</div>`;
+            sol = `<div class="step"><b>1. التحويل للراديان:</b><br>نستخدم القاعدة: <span class="math">(الدرجة × π) / 180</span>.<br>إذن: <span class="math">(120 × π) / 180 = 2π / 3</span> راديان.</div>
+            <div class="step"><b>2. القيس الرئيسي:</b><br>نقسم 17 على 3: نجد <span class="math">17 = 3 × 6 - 1</span>. إذن <span class="math">17π/3 = 6π - π/3</span>.<br>بما أن <span class="math">6π</span> دورات كاملة، القيس الرئيسي هو: <span class="math">-π/3</span>.</div>
+            <div class="step"><b>3. القيم الشهيرة:</b><br>من جدول الزوايا الشهيرة: <span class="math">cos(π/4) = √2 / 2</span> و <span class="math">sin(π/4) = √2 / 2</span>.</div>
+            <div class="step"><b>4. تبسيط العبارة A:</b><br>نعلم من خواص الدائرة أن <span class="math">cos(π - x) = -cos(x)</span>.<br>إذن: <span class="math">A = cos(x) - cos(x) = 0</span>.</div>
+            <div class="step"><b>5. حل المعادلة:</b><br>على الدائرة المثلثية، الزاوية التي جيبها (sin) يساوي 1 هي 90 درجة.<br>إذن: <span class="math">x = π / 2</span>.</div>`;
+        } else if (level === 2) {
+            title = "الزوايا الموجهة: مستوى متوسط (الدائرة المثلثية)";
+            ex = `<div class="question">1. إذا كان <span class="math">cos(x) = -1/2</span> و <span class="math">x</span> في المجال <span class="math">[π, 2π]</span>، عين قيمة <span class="math">x</span>.<br>2. برهن المتطابقة: <span class="math">cos²(x) + sin²(x) = 1</span> لزاوية اختيارية.<br>3. احسب القيمة الدقيقة لـ <span class="math">sin(2024π + π/6)</span>.<br>4. بسط العبارة: <span class="math">B = sin(π/2 - x) + cos(π - x)</span>.<br>5. عين صور الأعداد <span class="math">kπ</span> على الدائرة المثلثية (حيث k عدد صحيح).</div>`;
+            sol = `<div class="step"><b>1. تعيين الزاوية:</b><br>الزاوية التي <span class="math">cos(x) = 1/2</span> هي <span class="math">π/3</span>. بما أن الكوسينيس سالب في المجال المعطى (الربع الثالث)، فإن <span class="math">x = π + π/3 = 4π/3</span>.</div>
+            <div class="step"><b>2. برهان المتطابقة:</b><br>في الدائرة المثلثية، كل نقطة M لها إحداثيات <span class="math">(cos x, sin x)</span>. حسب نظرية فيثاغورس في المثلث القائم داخل الدائرة (نصف قطرها 1): <span class="math">x² + y² = R²</span>، أي <span class="math">cos²x + sin²x = 1² = 1</span>.</div>
+            <div class="step"><b>3. حساب sin:</b><br>بما أن <span class="math">2024π</span> هو عدد زوجي من الدورات، فإن <span class="math">sin(2024π + π/6) = sin(π/6)</span>.<br>القيمة هي: <span class="math">1 / 2 = 0.5</span>.</div>
+            <div class="step"><b>4. تبسيط العبارة B:</b><br>نعلم أن <span class="math">sin(π/2 - x) = cos(x)</span> وأن <span class="math">cos(π - x) = -cos(x)</span>.<br>إذن: <span class="math">B = cos(x) - cos(x) = 0</span>.</div>
+            <div class="step"><b>5. صور kπ:</b><br>- إذا كان k زوجياً: الصورة هي النقطة (1, 0) أي الزاوية 0.<br>- إذا كان k فردياً: الصورة هي النقطة (-1, 0) أي الزاوية π.<br>إذن الصور هي نقطتا تقاطع الدائرة مع محور الفواصل.</div>`;
+        } else {
+            title = "الزوايا الموجهة: مستوى صعب (معادلات متقدمة)";
+            ex = `<div class="question">1. حل في R المعادلة: <span class="math">2sin²(x) + sin(x) - 1 = 0</span>.<br>2. احسب القيمة الدقيقة لـ <span class="math">cos(π/12)</span> (تلميح: <span class="math">π/12 = π/3 - π/4</span>).<br>3. أثبت أن: <span class="math">cos⁴(x) - sin⁴(x) = cos(2x)</span>.<br>4. بسط المجموع: <span class="math">S = cos(0) + cos(π/4) + cos(π/2) + cos(3π/4) + cos(π)</span>.<br>5. استنتج قيم x التي تحقق <span class="math">sin(2x) = √3 / 2</span> في المجال <span class="math">[0, π]</span>.</div>`;
+            sol = `<div class="step"><b>1. حل المعادلة (تغيير المتغير):</b><br>نضع <span class="math">X = sin(x)</span>، تصبح <span class="math">2X² + X - 1 = 0</span>. بحساب المميز نجد الحلول <span class="math">X = 1/2</span> أو <span class="math">X = -1</span>.<br>إذن <span class="math">sin(x) = 1/2</span> (تعطي <span class="math">π/6, 5π/6</span>) أو <span class="math">sin(x) = -1</span> (تعطي <span class="math">3π/2</span>).</div>
+            <div class="step"><b>2. القيمة الدقيقة لـ cos(π/12):</b><br>نستخدم <span class="math">cos(a-b) = cos a cos b + sin a sin b</span>.<br><span class="math">cos(π/3-π/4) = cos(π/3)cos(π/4) + sin(π/3)sin(π/4)</span>.<br>النتيجة: <span class="math">(1/2 × √2/2) + (√3/2 × √2/2) = (√2 + √6) / 4</span>.</div>
+            <div class="step"><b>3. إثبات المتطابقة:</b><br>نحلل الطرف الأول كفرق مربعين: <span class="math">(cos²x - sin²x)(cos²x + sin²x)</span>.<br>بما أن <span class="math">cos²x + sin²x = 1</span>، يبقى <span class="math">cos²x - sin²x</span> وهي قانون ضعف الزاوية لـ <span class="math">cos(2x)</span>.</div>
+            <div class="step"><b>4. تبسيط المجموع S:</b><br><span class="math">cos(0)=1</span>، <span class="math">cos(π)=-1</span> (يلغيان بعضهما).<br><span class="math">cos(π/4)=√2/2</span>، <span class="math">cos(3π/4)=-√2/2</span> (يلغيان بعضهما).<br><span class="math">cos(π/2)=0</span>. إذن المجموع الكلي هو <b>0</b>.</div>
+            <div class="step"><b>5. حل sin(2x):</b><br>إما <span class="math">2x = π/3</span> ومنه <span class="math">x = π/6</span>.<br>أو <span class="math">2x = 2π/3</span> ومنه <span class="math">x = π/3</span>.</div>`;
+        }
     }
-
     document.getElementById("title").innerHTML = title;
     document.getElementById("content").innerHTML = ex;
     document.getElementById("sol").innerHTML = sol;
@@ -157,24 +180,24 @@ function loadExercise(type, level) {
 function drawGraphs(formulaLabel, level) {
     let ctx = document.getElementById("graph").getContext("2d");
     let labels = []; let dataF = [];
-    for (let x = -3; x <= 3; x += 0.2) {
+    for (let x = -3; x <= 5; x += 0.1) {
         labels.push(x.toFixed(1));
-        dataF.push(x * x - 4);
+        let y;
+        if (level === 1) y = x * x - 4;
+        else if (level === 2) y = -x * x + 4 * x - 3;
+        else { if (Math.abs(x - 1) < 0.1) y = null; else y = (2*x - 4) / (x - 1); }
+        dataF.push(y);
     }
     if (chart) chart.destroy();
     chart = new Chart(ctx, {
         type: "line",
-        data: {
-            labels: labels,
-            datasets: [{ label: formulaLabel, data: dataF, borderColor: "#d32f2f", borderWidth: 3, pointRadius: 0, fill: false }]
-        },
-        options: { responsive: true, scales: { y: { beginAtZero: false } } }
+        data: { labels: labels, datasets: [{ label: formulaLabel, data: dataF, borderColor: "#c62828", borderWidth: 3, pointRadius: 0, fill: false, spanGaps: false }] },
+        options: { responsive: true, scales: { x: { display: true }, y: { display: true } } }
     });
 }
 
 function toggle() {
-    let s = document.getElementById("sol");
-    let b = document.getElementById("btn-toggle");
+    let s = document.getElementById("sol"), b = document.getElementById("btn-toggle");
     if (s.style.display === "none" || s.style.display === "") {
         s.style.display = "block";
         b.innerText = "إخفاء الحل";
@@ -199,6 +222,8 @@ function backToSub() {
 </script>
 </body>
 </html>
+
+    
 
 
     
