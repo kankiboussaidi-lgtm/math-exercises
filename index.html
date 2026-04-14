@@ -3,307 +3,296 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
 <title>تمارين الرياضيات - ثانية ثانوي</title>
 
 <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 
 <style>
-body{
-font-family: Arial;
-background:#f2f2f2;
-direction: rtl;
+body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; background:#f0f2f5; direction: rtl; margin: 0; padding: 20px; }
+
+.math {
+    direction: ltr;
+    unicode-bidi: embed;
+    display: inline-block;
+    font-family: "Courier New", Courier, monospace;
+    font-weight: bold;
+    color: #c62828;
+    background: #fff5f5;
+    padding: 2px 6px;
+    border-radius: 4px;
+    border: 1px solid #ffcdd2;
 }
 
-/* مهم: الرياضيات لا تنقلب */
-.math{
-direction: ltr;
-unicode-bidi: embed;
-display: inline-block;
+h1.main-title, #sub-header {
+    text-align: center;
+    color: #004d40;
+    margin-bottom: 30px;
+    font-size: 2.2rem;
+    border-bottom: 4px double #00695C;
+    display: table;
+    margin: 0 auto 30px auto;
 }
 
-h1{text-align:center;}
+#sub-header { display: none; color: #c62828; border-bottom-color: #c62828; }
 
-#menu{
-display:flex;
-flex-direction:column;
-align-items:center;
+#menu, #sub-menu { display: flex; flex-direction: column; align-items: center; margin-top: 20px; }
+#sub-menu { display: none; }
+
+button {
+    width: 350px;
+    max-width: 90%;
+    padding: 18px;
+    margin: 12px auto;
+    display: block;
+    font-size: 20px;
+    background: #00695C; 
+    color: white;
+    border: none;
+    border-radius: 15px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    box-shadow: 0 4px 15px rgba(0,105,92,0.2);
 }
 
-/* ✅ تم إصلاح تمركز الأزرار */
-button{
-width:260px;
-max-width:90%;
-padding:15px;
-margin:10px auto;
-display:block;
-font-size:18px;
-background:#00695C;
-color:white;
-border:none;
-border-radius:10px;
-cursor:pointer;
+button:hover { background: #004d40; transform: translateY(-3px); }
+
+#box {
+    display: none;
+    background: white;
+    width: 95%;
+    max-width: 1000px;
+    margin: 20px auto;
+    padding: 40px;
+    border-radius: 25px;
+    box-shadow: 0 15px 40px rgba(0,0,0,0.15);
 }
 
-#box{
-display:none;
-background:white;
-width:92%;
-margin:20px auto;
-padding:25px;
-border-radius:15px;
+#title { color: #00695C; border-bottom: 3px solid #00695C; padding-bottom: 15px; margin-bottom: 25px; }
+
+.question { margin-top: 25px; line-height: 2.2; font-size: 19px; color: #1a1a1a; font-weight: 600;}
+
+.step { margin-top: 20px; color: #333; padding: 20px; border-right: 5px solid #00695C; background: #f1f8f7; border-radius: 0 10px 10px 0; }
+.step b { color: #004d40; display: block; margin-bottom: 12px; font-size: 1.2rem; text-decoration: underline; }
+
+.variation-table {
+    width: 100%;
+    max-width: 550px;
+    margin: 25px auto; 
+    border-collapse: collapse;
+    background: white;
 }
-
-.question{margin-top:15px; line-height:2;}
-.step{margin-top:6px;}
-
-table{
-border-collapse:collapse;
-width:100%;
-margin-top:15px;
-text-align:center;
+.variation-table td {
+    border: 2px solid #00695C;
+    padding: 15px;
+    text-align: center;
+    font-weight: bold;
 }
+.row-label { background: #e0f2f1; color: #004d40; width: 80px; }
+.arrow { font-size: 24px; color: #00695C; font-weight: bold; }
 
-td,th{
-border:1px solid black;
-padding:8px;
-}
+canvas { margin: 30px auto; max-width: 100% !important; border-radius: 15px; background: #fff; border: 1px solid #eee; }
 
-canvas{display:none; max-width: 100% !important; height: auto !important;}
+#sol { display: none; margin-top: 30px; border-top: 2px dashed #ccc; padding-top: 20px; }
+
+.btn-back, .btn-sol { background: #00695C !important; margin-top: 30px; }
 </style>
 </head>
 
 <body>
 
-<h1>تمارين الرياضيات - السنة الثانية ثانوي</h1>
+<h1 id="main-header" class="main-title">تمارين رياضيات ثانية ثانوي</h1>
+
+<h1 id="sub-header"></h1>
 
 <div id="menu">
-<button onclick="show('func')">الدوال</button>
-<button onclick="show('prob')">الإحتمالات</button>
-<button onclick="show('ang')">الزوايا الموجهة</button>
+    <button onclick="showSubMenu('func')">دوال</button>
+    <button onclick="showSubMenu('prob')">احتمالات</button>
+    <button onclick="showSubMenu('ang')">زوايا موجهة</button>
+</div>
+
+<div id="sub-menu">
+    <button id="btn1">تمرين سهل</button>
+    <button id="btn2">تمرين متوسط</button>
+    <button id="btn3">تمرين صعب</button>
+    <button class="btn-back" onclick="backToMain()">العودة</button>
 </div>
 
 <div id="box">
+    <h2 id="title"></h2>
+    <div id="content"></div>
+    <canvas id="graph" width="400" height="250"></canvas>
+    
+    <button id="btn-toggle" class="btn-sol" onclick="toggle()">إظهار الحل النموذجي المفصل</button>
+    <div id="sol"></div>
 
-<h2 id="title"></h2>
-
-<div id="content"></div>
-
-<canvas id="graph" width="400" height="300"></canvas>
-
-<button id="btn" onclick="toggle()">إظهار الحل النموذجي</button>
-<div id="sol"></div>
-
-<button onclick="back()">رجوع</button>
-
+    <button class="btn-back" onclick="backToSub()">العودة للمستويات</button>
 </div>
 
 <script>
-
 let chart;
 
-/* ================= المنحنى (فقط الدوال) ================= */
-function draw(){
-let ctx=document.getElementById("graph").getContext("2d");
+function showSubMenu(type) {
+    // إخفاء العنوان الرئيسي وإظهار عنوان المحور
+    document.getElementById("main-header").style.display = "none";
+    let subHeader = document.getElementById("sub-header");
+    subHeader.style.display = "table";
 
-let x=[], y=[];
+    if(type === 'func') subHeader.innerText = "تمارين الدوال";
+    if(type === 'prob') subHeader.innerText = "تمارين الاحتمالات";
+    if(type === 'ang') subHeader.innerText = "تمارين الزوايا الموجهة";
 
-for(let i=-6;i<=6;i+=0.5){
-x.push(i);
-y.push(i*i-8*i+15);
+    document.getElementById("menu").style.display = "none";
+    document.getElementById("sub-menu").style.display = "flex";
+    
+    document.getElementById("btn1").onclick = () => loadExercise(type, 1);
+    document.getElementById("btn2").onclick = () => loadExercise(type, 2);
+    document.getElementById("btn3").onclick = () => loadExercise(type, 3);
 }
 
-if(chart) chart.destroy();
-
-chart=new Chart(ctx,{
-type:"line",
-data:{
-labels:x,
-datasets:[{
-label:"f(x)=x²-8x+15",
-data:y,
-borderWidth:2
-}]
-},
-options: {
-    responsive: true,
-    maintainAspectRatio: true
-}
-});
-}
-
-/* ================= العرض ================= */
-function show(type){
-
-document.getElementById("menu").style.display="none";
-document.getElementById("box").style.display="block";
-
-let ex="", sol="", title="";
-
-let g=document.getElementById("graph");
-g.style.display="none";
-
-if(type==="func"){
-
-g.style.display="block";
-
-title="تمرين الدوال";
-
-ex=`
-<div class="question">لدينا الدالة: <span class="math">f(x)=x²-8x+15</span></div>
-
-<div class="question">1) أعد كتابتها على شكل مربع كامل.</div>
-<div class="question">2) استنتج الرأس.</div>
-<div class="question">3) حل المتراجحة: <span class="math">f(x) ≤ 0</span></div>
-<div class="question">4) حل المعادلة: <span class="math">f(x)=0</span></div>
-<div class="question">5) جدول التغيرات.</div>
-`;
-
-sol=`
-
-<div class="question"><b>1) التحليل:</b></div>
-<div class="step">x² - 8x + 15</div>
-<div class="step">x² - 8x + 16 - 1</div>
-<div class="step"><span class="math">(x-4)² - 1</span></div>
-
-<hr>
-
-<div class="question"><b>2) الرأس:</b></div>
-<div class="step">نكتب: <span class="math">(x-4)² - 1</span></div>
-<div class="step">a = 4</div>
-<div class="step">b = -1</div>
-<div class="step">الرأس: S(4 , -1)</div>
-
-<hr>
-
-<div class="question"><b>3) المتراجحة:</b></div>
-<div class="step"><span class="math">(x-4)² - 1 ≤ 0</span></div>
-<div class="step"><span class="math">(x-4)² ≤ 1</span></div>
-<div class="step">-1 ≤ x - 4 ≤ 1</div>
-<div class="step">3 ≤ x ≤ 5</div>
-
-<hr>
-
-<div class="question"><b>4) المعادلة:</b></div>
-<div class="step"><span class="math">(x-4)² - 1 = 0</span></div>
-<div class="step"><span class="math">(x-4)² = 1</span></div>
-<div class="step">x - 4 = ±1</div>
-<div class="step">x = 3 أو x = 5</div>
-
-<hr>
-
-<div class="question"><b>5) جدول التغيرات:</b></div>
-
-<table>
-<tr><th>x</th><th>-∞</th><th>4</th><th>+∞</th></tr>
-<tr><th>f(x)</th><td>↘</td><td>-1</td><td>↗</td></tr>
-</table>
-`;
-
-setTimeout(draw,200);
+function drawGraphs(formulaLabel, type, level) {
+    let ctx = document.getElementById("graph").getContext("2d");
+    let labels = []; let dataF = [];
+    for (let x = -2; x <= 5.1; x += 0.1) {
+        labels.push(x.toFixed(1));
+        let y;
+        if (level === 1) y = x * x - 4;
+        if (level === 2) y = -x * x + 4 * x - 3;
+        if (level === 3) y = (2*x - 4) / (x - 1);
+        dataF.push(y);
+    }
+    if (chart) chart.destroy();
+    chart = new Chart(ctx, {
+        type: "line",
+        data: {
+            labels: labels,
+            datasets: [{ label: formulaLabel, data: dataF, borderColor: "#c62828", borderWidth: 3, pointRadius: 0, fill: false }]
+        },
+        options: { responsive: true }
+    });
 }
 
-if(type==="prob"){
+function loadExercise(type, level) {
+    document.getElementById("sub-menu").style.display = "none";
+    // إخفاء عنوان المحور عند الدخول للتمرين نفسه لتركيز الطالب على المحتوى
+    document.getElementById("sub-header").style.display = "none";
+    document.getElementById("box").style.display = "block";
+    
+    let ex = "", sol = "", title = "";
+    document.getElementById("graph").style.display = (type === 'func') ? "block" : "none";
 
-title="الإحتمالات";
+    if (type === 'func') {
+        if (level === 1) {
+            title = "تمرين سهل - الدوال";
+            ex = `<div class="question">لتكن الدالة <span class="math">f(x) = x² - 4</span> المعرفة على <span class="math">R</span>.<br>
+            1) احسب صُور الأعداد 0، 2، و -2 بالدالة <span class="math">f</span>.<br>
+            2) ادرس شفعية الدالة <span class="math">f</span> وبيّن نوع تناظر منحناها.<br>
+            3) ادرس اتجاه تغير الدالة <span class="math">f</span> على المجالين <span class="math">]-∞, 0]</span> و <span class="math">[0, +∞[</span>.<br>
+            4) شكّل جدول تغيرات الدالة <span class="math">f</span>.<br>
+            5) عيّن نقاط تقاطع المنحنى <span class="math">(Cf)</span> مع حاملي محوري الإحداثيات.</div>`;
+            sol = `<div class="step"><b>1) حساب الصور:</b> <br> <span class="math">f(0) = 0²-4 = -4</span> <br> <span class="math">f(2) = 2²-4 = 0</span> <br> <span class="math">f(-2) = (-2)²-4 = 0</span>.</div>
+                   <div class="step"><b>2) الشفعية:</b> نحسب <span class="math">f(-x) = (-x)²-4 = x²-4 = f(x)</span>. الدالة زوجية ومنحناها متناظر بالنسبة لمحور التراتيب.</div>
+                   <div class="step"><b>3) اتجاه التغير:</b> الدالة متناقصة تماماً على <span class="math">]-∞, 0]</span> ومتزايدة تماماً على <span class="math">[0, +∞[</span>.</div>
+                   <div class="step"><b>4) جدول التغيرات:</b>
+                   <table class="variation-table">
+                        <tr><td class="row-label">x</td><td>-∞</td><td>0</td><td>+∞</td></tr>
+                        <tr style="height:80px"><td class="row-label">f(x)</td><td>+∞ <span class="arrow">↘</span></td><td>-4</td><td><span class="arrow">↗</span> +∞</td></tr>
+                   </table></div>
+                   <div class="step"><b>5) التقاطع:</b> مع التراتيب في النقطة <span class="math">(0, -4)</span>. مع الفواصل في النقطتين <span class="math">(2,0)</span> و <span class="math">(-2,0)</span>.</div>`;
+            drawGraphs("f(x) = x² - 4", 'func', 1);
+        } else if (level === 2) {
+            title = "تمرين متوسط - الدوال";
+            ex = `<div class="question">لتكن <span class="math">f(x) = -x² + 4x - 3</span>.<br>
+            1) اكتب الدالة <span class="math">f</span> على شكلها النموذجي.<br>
+            2) استنتج شعاع انسحاب المنحنى <span class="math">(Cf)</span> انطلاقاً من منحنى الدالة مربع.<br>
+            3) ادرس اتجاه تغير الدالة <span class="math">f</span> وشكّل جدول تغيراتها.<br>
+            4) عيّن فواصل نقط تقاطع <span class="math">(Cf)</span> مع محور الفواصل.<br>
+            5) حل بيانياً المتراجحة <span class="math">f(x) ≥ 0</span>.</div>`;
+            sol = `<div class="step"><b>1) الشكل النموذجي:</b> <span class="math">f(x) = -(x-2)² + 1</span>.</div>
+                   <div class="step"><b>2) الانسحاب:</b> هو صورة منحنى الدالة مربع بالانسحاب الذي شعاعه <span class="math">V(2, 1)</span> مع تناظر بالنسبة لمحور الفواصل.</div>
+                   <div class="step"><b>3) جدول التغيرات:</b>
+                   <table class="variation-table">
+                        <tr><td class="row-label">x</td><td>-∞</td><td>2</td><td>+∞</td></tr>
+                        <tr style="height:80px"><td class="row-label">f(x)</td><td>-∞ <span class="arrow">↗</span></td><td>1</td><td><span class="arrow">↘</span> -∞</td></tr>
+                   </table></div>
+                   <div class="step"><b>4) التقاطع:</b> نحل <span class="math">-x²+4x-3=0</span> نجد <span class="math">x=1</span> و <span class="math">x=3</span>.</div>
+                   <div class="step"><b>5) المتراجحة:</b> من المنحنى الحلول هي المجال <span class="math">S = [1, 3]</span>.</div>`;
+            drawGraphs("f(x) = -x² + 4x - 3", 'func', 2);
+        } else {
+            title = "تمرين صعب - الدوال";
+            ex = `<div class="question">نعتبر الدالة <span class="math">f(x) = (2x-4)/(x-1)</span>.<br>
+            1) عيّن <span class="math">Df</span> والمستقيمات المقاربة للمنحنى.<br>
+            2) بيّن أن <span class="math">f(x) = 2 - 2/(x-1)</span> لكل <span class="math">x</span> من <span class="math">Df</span>.<br>
+            3) ادرس اتجاه تغير الدالة وشكّل جدول تغيراتها.<br>
+            4) أثبت أن النقطة <span class="math">ω(1, 2)</span> هي مركز تناظر للمنحنى.<br>
+            5) ناقش بيانياً حسب قيم <span class="math">m</span> عدد حلول المعادلة <span class="math">f(x) = m</span>.</div>`;
+            sol = `<div class="step"><b>1) المقاربات:</b> <span class="math">Df = R - {1}</span>. المقارب العمودي هو <span class="math">x=1</span> والأفقي هو <span class="math">y=2</span>.</div>
+                   <div class="step"><b>2) التفكيك:</b> نعم بالقسمة الإقليدية أو المطابقة نصل للعبارة المطلوبة.</div>
+                   <div class="step"><b>3) جدول التغيرات:</b>
+                   <table class="variation-table">
+                        <tr><td class="row-label">x</td><td>-∞</td><td>1</td><td>+∞</td></tr>
+                        <tr style="height:80px"><td class="row-label">f(x)</td><td>2 <span class="arrow">↗</span></td><td>||</td><td><span class="arrow">↗</span> 2</td></tr>
+                   </table></div>
+                   <div class="step"><b>4) مركز التناظر:</b> نتحقق من <span class="math">f(2-x) + f(x) = 4</span> وهي محققة.</div>
+                   <div class="step"><b>5) المناقشة:</b> إذا كان <span class="math">m=2</span> لا يوجد حلول. إذا كان <span class="math">m \ne 2</span> يوجد حل وحيد.</div>`;
+            drawGraphs("f(x) = (2x-4)/(x-1)", 'func', 3);
+        }
+    } else if (type === 'prob') {
+        title = "تمرين الاحتمالات";
+        ex = `<div class="question">كيس يحتوي على 3 كرات بيضاء و 2 سوداء. نسحب كرتين بدون إرجاع.<br>
+        1) شكّل شجرة الاحتمالات.<br>
+        2) احسب احتمال سحب كرتين من نفس اللون.<br>
+        3) احسب احتمال سحب كرة بيضاء واحدة على الأقل.<br>
+        4) عيّن قيم المتغير العشوائي <span class="math">X</span> لعدد الكرات البيضاء.<br>
+        5) عيّن قانون الاحتمال واحسب <span class="math">E(X)</span>.</div>`;
+        sol = `<div class="step"><b>1) الشجرة:</b> موضحة في الحل المفصل.</div>
+               <div class="step"><b>2) نفس اللون:</b> الاحتمال هو 0.4.</div>
+               <div class="step"><b>3) بيضاء على الأقل:</b> الاحتمال هو 0.9.</div>
+               <div class="step"><b>4) قيم X:</b> {0, 1, 2}.</div>
+               <div class="step"><b>5) الأمل:</b> <span class="math">E(X) = 1.2</span>.</div>`;
+    } else if (type === 'ang') {
+        title = "تمرين الزوايا الموجهة";
+        ex = `<div class="question">1) عيّن القيس الرئيسي للزاوية <span class="math">2025π/4</span>.<br>
+        2) بسط العبارة <span class="math">cos(x+π) + sin(x+π/2) + cos(π-x)</span>.<br>
+        3) حل في المجال <span class="math">[0, π]</span> المعادلة <span class="math">2cos(x) - 1 = 0</span>.<br>
+        4) برهن أن <span class="math">(cos x + sin x)² = 1 + 2 sin x cos x</span>.<br>
+        5) إذا كان <span class="math">cos x = 0.6</span> احسب <span class="math">sin x</span>.</div>`;
+        sol = `<div class="step"><b>1) القيس:</b> <span class="math">π/4</span>.</div>
+               <div class="step"><b>2) التبسيط:</b> <span class="math">-cos x</span>.</div>
+               <div class="step"><b>3) المعادلة:</b> <span class="math">x = π/3</span>.</div>
+               <div class="step"><b>4) البرهان:</b> نشر المتطابقة.</div>
+               <div class="step"><b>5) الحساب:</b> نجد 0.8.</div>`;
+    }
 
-ex=`
-<div class="question">صندوق فيه 4 حمراء و3 زرقاء و3 خضراء.</div>
-<div class="question">نسحب كرتين دون إرجاع.</div>
-
-<div class="question">1) نفس اللون</div>
-<div class="question">2) لونين مختلفين</div>
-<div class="question">3) على الأقل كرة حمراء</div>
-<div class="question">4) استقلالية الأحداث</div>
-`;
-
-sol=`
-<div class="question"><b>القانون:</b></div>
-<div class="step">P(A∩B)=P(A)×P(B|A)</div>
-
-<hr>
-
-<div class="question"><b>1)</b></div>
-<div class="step">نفس اللون</div>
-
-<hr>
-
-<div class="question"><b>2)</b></div>
-<div class="step">ألوان مختلفة</div>
-
-<hr>
-
-<div class="question"><b>3)</b></div>
-<div class="step">1 - P(بدون حمراء)</div>
-
-<hr>
-
-<div class="question"><b>4)</b></div>
-<div class="step">غير مستقلين</div>
-`;
+    document.getElementById("title").innerHTML = title;
+    document.getElementById("content").innerHTML = ex;
+    document.getElementById("sol").innerHTML = sol;
+    document.getElementById("sol").style.display = "none";
 }
 
-if(type==="ang"){
-
-title="الزوايا الموجهة";
-
-ex=`
-<div class="question">(AB,AC)=35°</div>
-<div class="question">(AC,AD)=-65°</div>
-<div class="question">(AD,AE)=120°</div>
-
-<div class="question">1) احسب (AB,AE)</div>
-<div class="question">2) تحليل النتيجة</div>
-`;
-
-sol=`
-<div class="question"><b>القانون:</b></div>
-<div class="step">(AB,AE)=(AB,AC)+(AC,AD)+(AD,AE)</div>
-
-<hr>
-
-<div class="question"><b>1)</b></div>
-<div class="step">35 - 65 + 120 = 90°</div>
-
-<hr>
-
-<div class="question"><b>2)</b></div>
-<div class="step">زاوية موجبة ⇒ اتجاه عكس عقارب الساعة</div>
-`;
+function toggle() {
+    let s = document.getElementById("sol");
+    let b = document.getElementById("btn-toggle");
+    s.style.display = (s.style.display === "none") ? "block" : "none";
+    b.innerText = (s.style.display === "none") ? "إظهار الحل النموذجي المفصل" : "إخفاء الحل";
 }
 
-document.getElementById("title").innerHTML=title;
-document.getElementById("content").innerHTML=ex;
-document.getElementById("sol").innerHTML=sol;
-
-document.getElementById("sol").style.display="none";
-document.getElementById("btn").innerText="إظهار الحل النموذجي";
+function backToMain() {
+    document.getElementById("sub-menu").style.display = "none";
+    document.getElementById("sub-header").style.display = "none";
+    document.getElementById("main-header").style.display = "table";
+    document.getElementById("menu").style.display = "flex";
 }
 
-/* ================= إظهار / إخفاء ================= */
-function toggle(){
-let s=document.getElementById("sol");
-let b=document.getElementById("btn");
-
-if(s.style.display==="none"){
-s.style.display="block";
-b.innerText="إخفاء الحل النموذجي";
-}else{
-s.style.display="none";
-b.innerText="إظهار الحل النموذجي";
+function backToSub() {
+    document.getElementById("box").style.display = "none";
+    document.getElementById("sub-header").style.display = "table";
+    document.getElementById("sub-menu").style.display = "flex";
 }
-}
-
-/* ================= رجوع ================= */
-function back(){
-document.getElementById("menu").style.display="flex";
-document.getElementById("box").style.display="none";
-}
-
 </script>
 
 </body>
 </html>
+
 
 
 
