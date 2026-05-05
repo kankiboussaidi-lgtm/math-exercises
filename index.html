@@ -20,10 +20,10 @@ body.dark-mode .step { background: #3d3d3d; color: #e0e0e0; }
     position: absolute; top: 15px; left: 15px; width: 45px; height: 45px;
     border-radius: 50%; background: #001f3f; color: white;
     border: none; cursor: pointer; z-index: 99999; font-size: 20px;
-    box-shadow: 0 4px 8px rgba(0,0,0,0.3); display: flex;
-    align-items: center; justify-content: center; transition: 0.3s;
+    box-shadow: 0 12px 24px rgba(0,0,0,0.5); 
+    display: flex; align-items: center; justify-content: center; transition: 0.3s;
 }
-#dark-mode-toggle:hover { transform: scale(1.1); }
+#dark-mode-toggle:hover { transform: scale(1.1); box-shadow: 0 15px 30px rgba(0,0,0,0.6); }
 
 .math { direction: ltr; unicode-bidi: embed; display: inline-block; font-family: "Courier New", Courier, monospace; font-weight: bold; color: #c62828; background: #fff5f5; padding: 2px 6px; border-radius: 4px; border: 1px solid #ffcdd2; }
 h1.main-title, #sub-header { text-align: center; color: #001f3f; margin-bottom: 30px; font-size: 2.2rem; border-bottom: 4px double #001f3f; display: table; margin: 70px auto 30px auto; }
@@ -37,14 +37,20 @@ button {
     display: block; font-size: 20px; background: #001f3f; color: white; 
     border: none; border-radius: 15px; cursor: pointer; 
     transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275); 
-    box-shadow: 0 4px 15px rgba(0,31,63,0.2); 
+    /* ظل عميق جداً وبارز */
+    box-shadow: 0 15px 30px rgba(0,0,0,0.4), 0 8px 10px rgba(0,0,0,0.3); 
 }
-button:hover { background: #001226; transform: translateY(-3px); box-shadow: 0 8px 20px rgba(0,31,63,0.3); }
+button:hover { 
+    background: #001226; 
+    transform: translateY(-7px); 
+    box-shadow: 0 22px 45px rgba(0,0,0,0.5), 0 15px 15px rgba(0,0,0,0.3); 
+}
+button:active { transform: translateY(-2px); box-shadow: 0 5px 15px rgba(0,0,0,0.4); }
 
 #box { 
     display: none; background: white; width: 100%; max-width: 100%; 
     margin: 70px auto 20px auto; padding: 20px; border-radius: 0; 
-    box-shadow: 0 15px 40px rgba(0,0,0,0.15); box-sizing: border-box; 
+    box-shadow: 0 20px 50px rgba(0,0,0,0.2); box-sizing: border-box; 
     animation: fadeIn 0.5s ease;
 }
 #title { color: #001f3f; border-bottom: 3px solid #001f3f; padding-bottom: 15px; margin-bottom: 25px; }
@@ -71,28 +77,50 @@ canvas { margin: 30px auto; max-width: 100% !important; border-radius: 15px; bac
 <h1 id="main-header" class="main-title">تمارين رياضيات ثانية ثانوي</h1>
 <h1 id="sub-header"></h1>
 <div id="menu">
-    <button onclick="showSubMenu('func')">دوال</button>
-    <button onclick="showSubMenu('prob')">احتمالات</button>
-    <button onclick="showSubMenu('ang')">زوايا موجهة</button>
+    <button onclick="playClickSound(); showSubMenu('func')">دوال</button>
+    <button onclick="playClickSound(); showSubMenu('prob')">احتمالات</button>
+    <button onclick="playClickSound(); showSubMenu('ang')">زوايا موجهة</button>
 </div>
 <div id="sub-menu">
     <button id="btn1">تمرين سهل</button>
     <button id="btn2">تمرين متوسط</button>
     <button id="btn3">تمرين صعب</button>
-    <button class="btn-back" onclick="backToMain()">العودة</button>
+    <button class="btn-back" onclick="playClickSound(); backToMain()">العودة</button>
 </div>
 <div id="box">
     <h2 id="title"></h2>
     <div id="content"></div>
     <canvas id="graph" width="400" height="250"></canvas>
-    <button id="btn-toggle" class="btn-sol" onclick="toggle()">إظهار الحل النموذجي المفصل</button>
+    <button id="btn-toggle" class="btn-sol" onclick="playClickSound(); toggle()">إظهار الحل النموذجي المفصل</button>
     <div id="sol"></div>
-    <button class="btn-back" onclick="backToSub()">العودة للمستويات</button>
+    <button class="btn-back" onclick="playClickSound(); backToSub()">العودة للمستويات</button>
 </div>
+ <script>
+// نظام صوتي محسن ومستقر ومرتفع
+let audioCtx = null;
+function playClickSound() {
+    if (!audioCtx) audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+    if (audioCtx.state === 'suspended') audioCtx.resume();
+    
+    const oscillator = audioCtx.createOscillator();
+    const gainNode = audioCtx.createGain();
+    
+    oscillator.type = 'sine';
+    oscillator.frequency.setValueAtTime(700, audioCtx.currentTime);
+    oscillator.frequency.exponentialRampToValueAtTime(150, audioCtx.currentTime + 0.1);
+    
+    // صوت مرتفع ومسموع (0.4)
+    gainNode.gain.setValueAtTime(0.4, audioCtx.currentTime);
+    gainNode.gain.exponentialRampToValueAtTime(0.01, audioCtx.currentTime + 0.1);
+    
+    oscillator.connect(gainNode);
+    gainNode.connect(audioCtx.destination);
+    oscillator.start();
+    oscillator.stop(audioCtx.currentTime + 0.1);
+}
 
-<script>
-// نفس الكود الخاص بك بالضبط مع إضافة سطر واحد لمعالجة الرموز
 function toggleDarkMode() {
+    playClickSound();
     document.body.classList.toggle('dark-mode');
     let btn = document.getElementById("dark-mode-toggle");
     btn.innerText = document.body.classList.contains('dark-mode') ? "☀️" : "🌙";
@@ -106,13 +134,13 @@ function showSubMenu(type) {
     if(type === 'func') subHeader.innerText = "تمارين الدوال";
     if(type === 'prob') subHeader.innerText = "تمارين الاحتمالات";
     if(type === 'ang') subHeader.innerText = "تمارين الزوايا الموجهة";
-
-        document.getElementById("menu").style.display = "none";
+    
+    document.getElementById("menu").style.display = "none";
     document.getElementById("sub-menu").style.display = "flex";
     
-    document.getElementById("btn1").onclick = () => loadExercise(type, 1);
-    document.getElementById("btn2").onclick = () => loadExercise(type, 2);
-    document.getElementById("btn3").onclick = () => loadExercise(type, 3);
+    document.getElementById("btn1").onclick = () => { playClickSound(); loadExercise(type, 1); };
+    document.getElementById("btn2").onclick = () => { playClickSound(); loadExercise(type, 2); };
+    document.getElementById("btn3").onclick = () => { playClickSound(); loadExercise(type, 3); };
 }
 
 function drawGraphs(formulaLabel, type, level) {
@@ -131,24 +159,12 @@ function drawGraphs(formulaLabel, type, level) {
         type: "line", 
         data: { 
             labels: labels, 
-            datasets: [{ 
-                label: formulaLabel, 
-                data: dataF, 
-                borderColor: "#c62828", 
-                borderWidth: 3, 
-                pointRadius: 0, 
-                fill: false,
-                tension: 0.4 
-            }] 
+            datasets: [{ label: formulaLabel, data: dataF, borderColor: "#c62828", borderWidth: 3, pointRadius: 0, fill: false, tension: 0.4 }] 
         }, 
-        options: { 
-            responsive: true,
-            animation: { duration: 1000, easing: 'easeInOutQuart' }
-        } 
+        options: { responsive: true, animation: { duration: 1000, easing: 'easeInOutQuart' } } 
     });
 }
 
-// نفس التمارين والمحتوى الخاص بك دون تعديل
 function loadExercise(type, level) {
     document.getElementById("sub-menu").style.display = "none";
     document.getElementById("sub-header").style.display = "none";
@@ -208,8 +224,6 @@ function loadExercise(type, level) {
     document.getElementById("sol").innerHTML = sol;
     document.getElementById("sol").style.display = "none"; 
     document.getElementById("btn-toggle").innerText = "إظهار الحل النموذجي المفصل";
-
-    // السطر الجديد الوحيد المضاف هنا لإخبار المتصفح بمعالجة الرموز فور تحميل التمرين
     if (window.MathJax) { MathJax.typesetPromise(); }
 }
 
@@ -219,7 +233,7 @@ function toggle() {
     if (s.style.display === "none") { 
         s.style.display = "block"; 
         b.innerText = "إخفاء الحل"; 
-        if (window.MathJax) { MathJax.typesetPromise(); } // معالجة الرموز داخل الحل أيضاً
+        if (window.MathJax) { MathJax.typesetPromise(); } 
     } else { 
         s.style.display = "none"; 
         b.innerText = "إظهار الحل النموذجي المفصل"; 
@@ -241,6 +255,7 @@ function backToSub() {
 </script>
 </body>
 </html>
+
 
 
 
